@@ -50,6 +50,11 @@ RUN set -ex && \
     ln -sv /bin/bash /bin/sh && \
     chgrp root /etc/passwd && chmod ug+rw /etc/passwd
 
+# Add Tini
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /sbin/tini
+RUN chmod +x /sbin/tini
+
 COPY --from=builder build/${spark_jars} /opt/spark/jars
 COPY --from=builder build/bin /opt/spark/bin
 COPY --from=builder build/sbin /opt/spark/sbin
